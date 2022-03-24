@@ -1,58 +1,65 @@
 {
-  "name": "sbsextapp",
-  "version": "1.0.0",
-  "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
-  "license": "UNLICENSED",
-  "private": true,
-  "dependencies": {
-    "@sap/cds": "^5",
-    "express": "^4",
-    "hdb": "^0.18.3"
-  },
-  "devDependencies": {
-    "sqlite3": "^5.0.2"
-  },
-  "scripts": {
-    "start": "cds run"
-  },
-  "eslintConfig": {
-    "extends": "eslint:recommended",
-    "env": {
-      "es2020": true,
-      "node": true,
-      "jest": true,
-      "mocha": true
+    "name": "sbsextapp",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+        "@sap/cds": "^5",
+        "express": "^4",
+        "hdb": "^0.18.3"
     },
-    "globals": {
-      "SELECT": true,
-      "INSERT": true,
-      "UPDATE": true,
-      "DELETE": true,
-      "CREATE": true,
-      "DROP": true,
-      "CDL": true,
-      "CQL": true,
-      "CXL": true,
-      "cds": true
+    "devDependencies": {
+        "@sap/ux-specification": "^1.96.5",
+        "sqlite3": "^5.0.2"
     },
-    "rules": {
-      "no-console": "off",
-      "require-atomic-updates": "off"
-    }
-  },
-  "cds": {
-    "requires": {
-      "db": {
-        "kind": "sql"
-      },
-      "OP_API_PURCHASEORDER_PROCESS_SRV_0001": {
-        "kind": "odata-v2",
-        "model": "srv/external/OP_API_PURCHASEORDER_PROCESS_SRV_0001"
-      }
+    "scripts": {
+        "start": "cds run",
+        "watch": "cds watch",
+        "watch-supplextapp": "cds watch --open supplextapp/webapp/index.html?sap-ui-xx-viewCache=false#fe-lrop-v4",
+        "undeploy": "cf undeploy sbsextapp --delete-services --delete-service-keys"
     },
-    "hana": {
-      "deploy-format": "hdbtable"
-    }
-  }
+    "eslintConfig": {
+        "extends": "eslint:recommended",
+        "env": {
+            "es2020": true,
+            "node": true,
+            "jest": true,
+            "mocha": true
+        },
+        "globals": {
+            "SELECT": true,
+            "INSERT": true,
+            "UPDATE": true,
+            "DELETE": true,
+            "CREATE": true,
+            "DROP": true,
+            "CDL": true,
+            "CQL": true,
+            "CXL": true,
+            "cds": true
+        },
+        "rules": {
+            "no-console": "off",
+            "require-atomic-updates": "off"
+        }
+    },
+    "cds": {
+        "requires": {
+            "db": {
+                "kind": "sql"
+            },
+            "OP_API_PURCHASEORDER_PROCESS_SRV_0001": {
+                "kind": "odata-v2",
+                "model": "srv/external/OP_API_PURCHASEORDER_PROCESS_SRV_0001"
+            }
+        },
+        "hana": {
+            "deploy-format": "hdbtable"
+        }
+    },
+    "sapux": [
+        "app/supplextapp"
+    ]
 }

@@ -1,5 +1,17 @@
 using {SupplierSBSExtSrv as my} from './supl-service';
 
+annotate my.SupplierInfo with @(UI : { 
+    FieldGroup #SupplInfo : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : someField,
+            },
+        ],
+    },
+});
+
 annotate my.PurchaseOrder with @(UI : {
     SelectionFields         : [
         PurchaseOrder,
@@ -42,6 +54,11 @@ annotate my.PurchaseOrder with @(UI : {
         },
         {
             $Type  : 'UI.ReferenceFacet',
+            Target : 'supplierInfo/@UI.FieldGroup#SupplInfo',
+            Label  : 'General Information'
+        },
+        {
+            $Type  : 'UI.ReferenceFacet',
             Target : 'item/@UI.LineItem',
             Label  : 'Items',
         },
@@ -64,3 +81,7 @@ annotate my.OrderItem with {
     PurchaseOrderItem @title : 'Item No.';
     PurchaseOrderItemText @title : 'Description';
 };
+
+
+
+// annotate my.PurchaseOrder with @odata.draft.enabled;

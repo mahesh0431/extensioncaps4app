@@ -1,7 +1,7 @@
 {
     "_version": "1.32.0",
     "sap.app": {
-        "id": "supplextapp",
+        "id": "escalationfe",
         "type": "application",
         "i18n": "i18n/i18n.properties",
         "applicationVersion": {
@@ -77,65 +77,65 @@
             "routes": [
                 {
                     "pattern": ":?query:",
-                    "name": "PurchaseOrderList",
-                    "target": "PurchaseOrderList"
+                    "name": "EscalationsList",
+                    "target": "EscalationsList"
                 },
                 {
-                    "pattern": "PurchaseOrder({key}):?query:",
-                    "name": "PurchaseOrderObjectPage",
-                    "target": "PurchaseOrderObjectPage"
+                    "pattern": "Escalations({key}):?query:",
+                    "name": "EscalationsObjectPage",
+                    "target": "EscalationsObjectPage"
                 },
                     {
-                        "pattern": "PurchaseOrder({key})/item({key2}):?query:",
-                        "name": "OrderItemObjectPage",
-                        "target": "OrderItemObjectPage"
+                        "pattern": "Escalations({key})/Comments({key2}):?query:",
+                        "name": "CommentsObjectPage",
+                        "target": "CommentsObjectPage"
                     }
             ],
             "targets": {
-                "PurchaseOrderList": {
+                "EscalationsList": {
                     "type": "Component",
-                    "id": "PurchaseOrderList",
+                    "id": "EscalationsList",
                     "name": "sap.fe.templates.ListReport",
                     "options": {
                         "settings": {
-                            "entitySet": "PurchaseOrder",
+                            "entitySet": "Escalations",
                             "variantManagement": "Page",
                             "navigation": {
-                                "PurchaseOrder": {
+                                "Escalations": {
                                     "detail": {
-                                        "route": "PurchaseOrderObjectPage"
+                                        "route": "EscalationsObjectPage"
                                     }
                                 }
                             }
                         }
                     }
                 },
-                "PurchaseOrderObjectPage": {
+                "EscalationsObjectPage": {
                     "type": "Component",
-                    "id": "PurchaseOrderObjectPage",
+                    "id": "EscalationsObjectPage",
                     "name": "sap.fe.templates.ObjectPage",
                     "options": {
                         "settings": {
                             "editableHeaderContent": false,
-                            "entitySet": "PurchaseOrder",
+                            "entitySet": "Escalations",
                                 "navigation": {
-                                    "item": {
+                                    "Comments": {
                                         "detail": {
-                                            "route": "OrderItemObjectPage"
+                                            "route": "CommentsObjectPage"
                                         }
                                     }
                                 }
                         }
                     }
                 },
-                    "OrderItemObjectPage": {
+                    "CommentsObjectPage": {
                         "type": "Component",
-                        "id": "OrderItemObjectPage",
+                        "id": "CommentsObjectPage",
                         "name": "sap.fe.templates.ObjectPage",
                         "options": {
                             "settings": {
                                 "editableHeaderContent": false,
-                                "entitySet": "OrderItem"
+                                "entitySet": "Comments"
                             }
                         }
                     }

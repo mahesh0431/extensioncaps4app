@@ -1,25 +1,82 @@
 using {SupplierSBSExtSrv as my} from './supl-service';
 
-annotate my.SupplierInfo with @(UI : { 
-    FieldGroup #SupplInfo : {
+annotate my.Escalations with @(UI : { 
+    FieldGroup #GenInfo : {
         $Type : 'UI.FieldGroupType',
         Data : [
             {
                 $Type : 'UI.DataField',
-                Value : someField,
+                Value : Description,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : PurchaseOrder_PurchaseOrder,
+                Label : 'Purchase Order No',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : Status,
             },
         ],
     },
+    LineItem : [
+        {
+            $Type : 'UI.DataField',
+            Label : 'Description',
+            Value : Description,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'Status',
+            Value : Status,
+        },
+    ],
+    Facets                  : [
+        {
+            $Type  : 'UI.ReferenceFacet',
+            Target : '@UI.FieldGroup#GenInfo',
+            Label  : 'General Information'
+        },
+        {
+            $Type  : 'UI.ReferenceFacet',
+            Target : 'Comments/@UI.LineItem',
+            Label  : 'Comments'
+        },
+    ],
+});
+
+annotate my.Comments with @(UI : { 
+    Identification  : [
+        {
+            $Type : 'UI.DataField',
+            Value : comment,
+        },{
+            $Type : 'UI.DataField',
+            Value : createdAt,
+        },
+    ],
+    LineItem                : [
+        {
+            Value : comment,
+        },
+        {
+            Value : createdAt,
+        }
+    ],
 });
 
 annotate my.PurchaseOrder with @(UI : {
     SelectionFields         : [
         PurchaseOrder,
+        PurchaseOrderType,
         Supplier
     ],
     LineItem                : [
         {
             Value : PurchaseOrder,
+        },
+        {
+            Value : PurchaseOrderType,
         },
         {
             Value : Supplier,
@@ -28,47 +85,12 @@ annotate my.PurchaseOrder with @(UI : {
             Value : SupplierPhoneNumber,
         }
     ],
-    FieldGroup #GeneralInfo : {
-        $Type : 'UI.FieldGroupType',
-        Label : 'General Information',
-        Data  : [
-            {
-                $Type : 'UI.DataField',
-                Value : PurchaseOrder,
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : Supplier,
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : SupplierPhoneNumber,
-            },
-        ],
-    },
-    Facets                  : [
-        {
-            $Type  : 'UI.ReferenceFacet',
-            Target : '@UI.FieldGroup#GeneralInfo',
-            Label  : 'General Information'
-        },
-        {
-            $Type  : 'UI.ReferenceFacet',
-            Target : 'supplierInfo/@UI.FieldGroup#SupplInfo',
-            Label  : 'General Information'
-        },
-        {
-            $Type  : 'UI.ReferenceFacet',
-            Target : 'item/@UI.LineItem',
-            Label  : 'Items',
-        },
-    ],
 });
 
 annotate my.PurchaseOrder with {
-    PurchaseOrder @title : 'Purchase Order';
-    Supplier @title : 'Supplier';
-    SupplierPhoneNumber @title : 'Supplier Ph.no';
+    PurchaseOrder @(Common.Label : 'Purchase Order');
+    Supplier @(Common.Label : 'Supplier');
+    SupplierPhoneNumber @(Common.Label : 'Supplier Ph.no');
 };
 
 

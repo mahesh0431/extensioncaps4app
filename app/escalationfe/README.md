@@ -1,25 +1,24 @@
 ## Application Details
 |               |
 | ------------- |
-|**Generation Date and Time**<br>Tue Mar 22 2022 16:08:27 GMT+0000 (Coordinated Universal Time)|
+|**Generation Date and Time**<br>Fri Apr 08 2022 16:41:58 GMT+0000 (Coordinated Universal Time)|
 |**App Generator**<br>@sap/generator-fiori-elements|
-|**App Generator Version**<br>1.5.2|
+|**App Generator Version**<br>1.5.3|
 |**Generation Platform**<br>SAP Business Application Studio|
 |**Floorplan Used**<br>List Report Object Page V4|
 |**Service Type**<br>Local Cap|
 |**Service URL**<br>/supplier-sbsext-srv/
-|**Module Name**<br>supplextapp|
-|**Application Title**<br>Supplier Extension|
+|**Module Name**<br>escalationfe|
+|**Application Title**<br>Escalations|
 |**Namespace**<br>|
 |**UI5 Theme**<br>sap_fiori_3|
 |**UI5 Version**<br>1.99.0|
-|**Enable Code Assist Libraries**<br>False|
+|**Enable Code Assist Libraries**<br>True|
 |**Add Eslint configuration**<br>False|
-|**Enable Telemetry**<br>True|
-|**Main Entity**<br>PurchaseOrder|
-|**Navigation Entity**<br>item|
+|**Main Entity**<br>Escalations|
+|**Navigation Entity**<br>Comments|
 
-## supplextapp
+## escalationfe
 
 A Fiori application.
 
@@ -27,7 +26,7 @@ A Fiori application.
 
 -   This app has been generated using the SAP Fiori tools - App Generator, as part of the SAP Fiori tools suite.  In order to launch the generated app, simply start your CAP project and navigate to the following location in your browser:
 
-http://localhost:4004/supplextapp/webapp/index.html
+http://localhost:4004/escalationfe/webapp/index.html
 
 #### Pre-requisites:
 

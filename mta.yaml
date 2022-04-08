@@ -37,9 +37,23 @@ modules:
       - supplextapp.zip
       name: supplextapp
       target-path: resources/
+    - artifacts:
+      - escalationfe.zip
+      name: escalationfe
+      target-path: resources/
 - name: supplextapp
   type: html5
   path: app/supplextapp
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: escalationfe
+  type: html5
+  path: app/escalationfe
   build-parameters:
     build-result: dist
     builder: custom

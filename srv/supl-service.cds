@@ -1,7 +1,8 @@
 using my.sbsextapp as my from '../db/data-model';
 
 service SupplierSBSExtSrv {
-    entity SupplierInfo as projection on my.SupplierInfo 
+    @odata.draft.enabled
+    entity Escalations as projection on my.Escalations;
+    entity Comments as projection on my.Comments;
     entity PurchaseOrder as projection on my.PurchaseOrder;
-    entity OrderItem as projection on my.OrderItem;
 }

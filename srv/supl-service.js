@@ -42,7 +42,11 @@ module.exports = cds.service.impl(async function () {
 
     });
 
-    this.on('READ', 'PurchaseOrder', async (req, next) => {
+    this.on('READ', 'PurchaseOrder', async (req) => {
         return po.run(req.query);
+    });
+
+    this.before('NEW','Escalations',(req)=>{
+        req.data.Status_code = 'NEW';
     });
 });

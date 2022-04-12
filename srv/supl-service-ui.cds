@@ -1,109 +1,157 @@
 using {SupplierSBSExtSrv as my} from './supl-service';
 
-annotate my.Escalations with @(UI : { 
-    FieldGroup #GenInfo : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
+annotate my.Escalations with @(
+    Common.SideEffects #PurchaseOrderUpdated : {
+        SourceProperties : [PurchaseOrder_PurchaseOrder],
+        TargetEntities : [PurchaseOrder]
+    },
+    UI                                       : {
+        FieldGroup #GenInfo : {
+            $Type : 'UI.FieldGroupType',
+            Data  : [
+                {
+                    $Type : 'UI.DataField',
+                    Value : Description,
+                },
+                {
+                    $Type : 'UI.DataField',
+                    Value : PurchaseOrder_PurchaseOrder,
+                    Label : 'Purchase Order No',
+                },
+                {
+                    $Type : 'UI.DataField',
+                    Value : PurchaseOrder.Supplier,
+                    Label : 'Supplier',
+                },
+                {
+                    $Type : 'UI.DataField',
+                    Value : Material,
+                    Label : 'Material No.',
+                },
+                {
+                    $Type : 'UI.DataField',
+                    Value : ExpectedDate,
+                    Label : 'Expected Date',
+                },
+                {
+                    $Type : 'UI.DataField',
+                    Value : Status_code,
+                },
+            ],
+        },
+        SelectionFields     : [Status_code],
+        LineItem            : [
             {
                 $Type : 'UI.DataField',
+                Label : 'Description',
                 Value : Description,
             },
             {
                 $Type : 'UI.DataField',
+                Label : 'Purchase Order',
                 Value : PurchaseOrder_PurchaseOrder,
-                Label : 'Purchase Order No',
             },
             {
                 $Type : 'UI.DataField',
-                Value : Status,
+                Value : PurchaseOrder.Supplier,
+                Label : 'Supplier',
+            },
+            {
+                $Type : 'UI.DataField',
+                Label : 'Status',
+                Value : Status_code,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : Material,
+                Label : 'Material No.',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : ExpectedDate,
+                Label : 'Expected Date',
+            }
+        ],
+        Facets              : [
+            {
+                $Type  : 'UI.ReferenceFacet',
+                Target : '@UI.FieldGroup#GenInfo',
+                Label  : 'General Information'
+            },
+            {
+                $Type  : 'UI.ReferenceFacet',
+                Target : 'Comments/@UI.LineItem',
+                Label  : 'Comments'
             },
         ],
-    },
-    LineItem : [
-        {
-            $Type : 'UI.DataField',
-            Label : 'Description',
-            Value : Description,
-        },
-        {
-            $Type : 'UI.DataField',
-            Label : 'Status',
-            Value : Status,
-        },
-    ],
-    Facets                  : [
-        {
-            $Type  : 'UI.ReferenceFacet',
-            Target : '@UI.FieldGroup#GenInfo',
-            Label  : 'General Information'
-        },
-        {
-            $Type  : 'UI.ReferenceFacet',
-            Target : 'Comments/@UI.LineItem',
-            Label  : 'Comments'
-        },
-    ],
-});
+    }
+);
 
-annotate my.Comments with @(UI : { 
-    Identification  : [
+annotate my.Comments with @(UI : {
+    Identification : [
         {
             $Type : 'UI.DataField',
             Value : comment,
-        },{
+        },
+        {
             $Type : 'UI.DataField',
             Value : createdAt,
         },
     ],
-    LineItem                : [
-        {
-            Value : comment,
-        },
-        {
-            Value : createdAt,
-        }
+    LineItem       : [
+        {Value : comment, },
+        {Value : createdAt, }
     ],
 });
 
 annotate my.PurchaseOrder with @(UI : {
-    SelectionFields         : [
+    SelectionFields : [
         PurchaseOrder,
         PurchaseOrderType,
         Supplier
     ],
-    LineItem                : [
-        {
-            Value : PurchaseOrder,
-        },
-        {
-            Value : PurchaseOrderType,
-        },
-        {
-            Value : Supplier,
-        },
-        {
-            Value : SupplierPhoneNumber,
-        }
+    LineItem        : [
+        {Value : PurchaseOrder, },
+        {Value : PurchaseOrderType, },
+        {Value : Supplier, },
+        {Value : SupplierPhoneNumber, }
     ],
 });
 
 annotate my.PurchaseOrder with {
-    PurchaseOrder @(Common.Label : 'Purchase Order');
-    Supplier @(Common.Label : 'Supplier');
-    SupplierPhoneNumber @(Common.Label : 'Supplier Ph.no');
+    PurchaseOrder       @(Common.Label : 'Purchase Order')  @readonly;
+    Supplier            @(Common.Label : 'Supplier')  @readonly;
+    SupplierPhoneNumber @(Common.Label : 'Supplier Ph.no')  @readonly;
 };
 
-
-annotate my.OrderItem with @(UI : {LineItem : [
-    {Value : PurchaseOrderItem, },
-    {Value : PurchaseOrderItemText, }
-], });
-
-annotate my.OrderItem with {
-    PurchaseOrderItem @title : 'Item No.';
-    PurchaseOrderItemText @title : 'Description';
-};
-
-
-
-// annotate my.PurchaseOrder with @odata.draft.enabled;
+annotate my.Escalations with {
+    Description
+    @mandatory;
+    PurchaseOrder
+    @mandatory
+    @(Common : {ValueList : {
+        $Type          : 'Common.ValueListType',
+        CollectionPath : 'PurchaseOrder',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                ValueListProperty : 'PurchaseOrder',
+                LocalDataProperty : 'PurchaseOrder_PurchaseOrder'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'PurchaseOrderType'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'Supplier'
+            }
+        ],
+    }, });
+    ExpectedDate
+    @mandatory;
+    Status
+    @Common.ValueListWithFixedValues : true
+    @Common.Text                     : Status.name
+    @Common.TextArrangement          : #TextFirst;
+}

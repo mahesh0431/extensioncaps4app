@@ -17,6 +17,7 @@ entity Escalations: managed, cuid {
     Material: String(30);
     ExpectedDate: Date;
     Comments: Association to many Comments on Comments.escalation = $self;
+    virtual isNew: Boolean;
 };
 
 entity Comments: managed, cuid{
@@ -30,6 +31,6 @@ view PurchaseOrder as
     {
         key PurchaseOrder,
             PurchaseOrderType,
-            Supplier @readonly,
+            Supplier,
             SupplierPhoneNumber
     };

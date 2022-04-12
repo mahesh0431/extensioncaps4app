@@ -42,6 +42,11 @@ annotate my.Escalations with @(
         SelectionFields     : [Status_code],
         LineItem            : [
             {
+                $Type: 'UI.DataFieldForAction',
+                Action : 'SupplierSBSExtSrv.complete',
+                Label : 'Complete',
+            },
+            {
                 $Type : 'UI.DataField',
                 Label : 'Description',
                 Value : Description,

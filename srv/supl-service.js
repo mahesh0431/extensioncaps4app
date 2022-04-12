@@ -49,4 +49,8 @@ module.exports = cds.service.impl(async function () {
     this.before('NEW','Escalations',(req)=>{
         req.data.Status_code = 'NEW';
     });
+
+    this.on('completed', async(req)=>{
+        
+    })
 });

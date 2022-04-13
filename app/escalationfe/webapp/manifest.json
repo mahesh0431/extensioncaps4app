@@ -24,7 +24,7 @@
             "id": "ui5template.fiorielements.v4.lrop",
             "version": "1.0.0"
         }
-    }, 
+    },
     "sap.ui": {
         "technology": "UI5",
         "icons": {
@@ -85,11 +85,11 @@
                     "name": "EscalationsObjectPage",
                     "target": "EscalationsObjectPage"
                 },
-                    {
-                        "pattern": "Escalations({key})/Comments({key2}):?query:",
-                        "name": "CommentsObjectPage",
-                        "target": "CommentsObjectPage"
-                    }
+                {
+                    "pattern": "Escalations({key})/Comments({key2}):?query:",
+                    "name": "CommentsObjectPage",
+                    "target": "CommentsObjectPage"
+                }
             ],
             "targets": {
                 "EscalationsList": {
@@ -118,27 +118,37 @@
                         "settings": {
                             "editableHeaderContent": false,
                             "entitySet": "Escalations",
-                                "navigation": {
-                                    "Comments": {
-                                        "detail": {
-                                            "route": "CommentsObjectPage"
+                            "navigation": {
+                                "Comments": {
+                                    "detail": {
+                                        "route": "CommentsObjectPage"
+                                    }
+                                }
+                            },
+                            "controlConfiguration": {
+                                "Comments/@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "creationMode": {
+                                            "name": "Inline",
+                                            "createAtEnd": true
                                         }
                                     }
                                 }
-                        }
-                    }
-                },
-                    "CommentsObjectPage": {
-                        "type": "Component",
-                        "id": "CommentsObjectPage",
-                        "name": "sap.fe.templates.ObjectPage",
-                        "options": {
-                            "settings": {
-                                "editableHeaderContent": false,
-                                "entitySet": "Comments"
                             }
                         }
                     }
+                },
+                "CommentsObjectPage": {
+                    "type": "Component",
+                    "id": "CommentsObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "Comments"
+                        }
+                    }
+                }
             }
         },
         "contentDensities": {

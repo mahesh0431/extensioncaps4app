@@ -16,8 +16,8 @@ entity Escalations: managed, cuid {
     PurchaseOrder : Association to PurchaseOrder;
     Material: String(30);
     ExpectedDate: Date;
-    Comments: Association to many Comments on Comments.escalation = $self;
-    virtual isNew: Boolean;
+    Comments: Composition of many Comments on Comments.escalation = $self;
+    virtual isInProcess: Boolean;
 };
 
 entity Comments: managed, cuid{
@@ -25,7 +25,7 @@ entity Comments: managed, cuid{
     escalation: Association to Escalations;
 }
 
-// @cds.persistence.skip
+@cds.persistence.skip
 view PurchaseOrder as
     select from PO.A_PurchaseOrder
     {

@@ -2,6 +2,7 @@ const cds = require('@sap/cds');
 
 module.exports = cds.service.impl(async function () {
     const po = await cds.connect.to('OP_API_PURCHASEORDER_PROCESS_SRV_0001');
+    const { Escalations } = this.entities;
 
     this.on('READ', 'Escalations', async (req, next) => {
         if (req.query.SELECT.columns) {
@@ -42,15 +43,23 @@ module.exports = cds.service.impl(async function () {
 
     });
 
+    this.after('READ', 'Escalations', each => {
+        if (each.Status_code === 'INP') { 
+            each.isInProcess = true 
+        } else { 
+            each.isInProcess = false 
+        }
+    });
+
     this.on('READ', 'PurchaseOrder', async (req) => {
         return po.run(req.query);
     });
 
-    this.before('NEW','Escalations',(req)=>{
-        req.data.Status_code = 'NEW';
+    this.before('NEW', 'Escalations', (req) => {
+        req.data.Status_code = 'INP';
     });
 
-    this.on('completed', async(req)=>{
-        
+    this.on('resolve', async (req) => {
+        await cds.tx(req).run(UPDATE(Escalations).set({ 'Status_code': 'CMP' }).where({ ID: req.params[0].ID }))
     })
 });

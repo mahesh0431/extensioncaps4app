@@ -3,7 +3,7 @@ using {SupplierSBSExtSrv as my} from './supl-service';
 annotate my.Escalations with @(
     Common.SideEffects #PurchaseOrderUpdated : {
         SourceProperties : [PurchaseOrder_PurchaseOrder],
-        TargetEntities : [PurchaseOrder]
+        TargetEntities   : [PurchaseOrder]
     },
     UI                                       : {
         FieldGroup #GenInfo : {
@@ -16,7 +16,6 @@ annotate my.Escalations with @(
                 {
                     $Type : 'UI.DataField',
                     Value : PurchaseOrder_PurchaseOrder,
-                    Label : 'Purchase Order No',
                 },
                 {
                     $Type : 'UI.DataField',
@@ -39,12 +38,16 @@ annotate my.Escalations with @(
                 },
             ],
         },
-        SelectionFields     : [Status_code],
+        SelectionFields     : [
+            Status_code,
+            PurchaseOrder_PurchaseOrder
+        ],
         LineItem            : [
             {
-                $Type: 'UI.DataFieldForAction',
-                Action : 'SupplierSBSExtSrv.complete',
-                Label : 'Complete',
+                $Type         : 'UI.DataFieldForAction',
+                Action        : 'SupplierSBSExtSrv.resolve',
+                Label         : 'Resolve',
+                ![@UI.Hidden] : isInProcess
             },
             {
                 $Type : 'UI.DataField',
@@ -53,7 +56,6 @@ annotate my.Escalations with @(
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'Purchase Order',
                 Value : PurchaseOrder_PurchaseOrder,
             },
             {
@@ -97,6 +99,7 @@ annotate my.Comments with @(UI : {
         {
             $Type : 'UI.DataField',
             Value : comment,
+            Label : 'Comment',
         },
         {
             $Type : 'UI.DataField',
@@ -107,6 +110,11 @@ annotate my.Comments with @(UI : {
         {Value : comment, },
         {Value : createdAt, }
     ],
+    Facets         : [{
+        $Type  : 'UI.ReferenceFacet',
+        Target : '@UI.Identification',
+        Label  : ''
+    }]
 });
 
 annotate my.PurchaseOrder with @(UI : {
@@ -124,17 +132,17 @@ annotate my.PurchaseOrder with @(UI : {
 });
 
 annotate my.PurchaseOrder with {
-    PurchaseOrder       @(Common.Label : 'Purchase Order')  @readonly;
+    PurchaseOrder       @(Common.Label : 'Purchase Order No.')  @readonly;
     Supplier            @(Common.Label : 'Supplier')  @readonly;
     SupplierPhoneNumber @(Common.Label : 'Supplier Ph.no')  @readonly;
 };
 
 annotate my.Escalations with {
     Description
-    @mandatory;
-    PurchaseOrder
-    @mandatory
-    @(Common : {ValueList : {
+                  @mandatory;
+    PurchaseOrder @(Common.Label : 'Purchase Order No.')
+                  @mandatory
+                  @(Common : {ValueList : {
         $Type          : 'Common.ValueListType',
         CollectionPath : 'PurchaseOrder',
         Parameters     : [
@@ -154,9 +162,9 @@ annotate my.Escalations with {
         ],
     }, });
     ExpectedDate
-    @mandatory;
+                  @mandatory;
     Status
-    @Common.ValueListWithFixedValues : true
-    @Common.Text                     : Status.name
-    @Common.TextArrangement          : #TextFirst;
+                  @Common.ValueListWithFixedValues : true
+                  @Common.Text                     : Status.name
+                  @Common.TextArrangement          : #TextFirst;
 }

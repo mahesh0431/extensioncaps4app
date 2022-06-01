@@ -12,5 +12,6 @@ service SupplierSBSExtSrv {
         action resolve();
     };
     entity Comments as projection on my.Comments;
+    entity StatusList as projection on my.StatusList;
     @readonly entity PurchaseOrder as projection on my.PurchaseOrder;
 }

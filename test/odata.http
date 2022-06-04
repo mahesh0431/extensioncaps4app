@@ -1,5 +1,0 @@
-### POST Data
-POST http://localhost:4004/supplier-sbsext-srv/Escalations
-Content-Type: application/json
-
-{"IsActiveEntity":true, "Description":"test","Status_code":"INP","PurchaseOrder_PurchaseOrder":"9000000001","ExpectedDate":"2022-05-27"}

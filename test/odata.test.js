@@ -10,6 +10,11 @@ describe('Testing OData APIs', () => {
         expect(data.value).to.eql([{ "name": "Completed", "descr": null, "code": "CMP" },
         { "name": "In Process", "descr": null, "code": "INP" }]);
     })
+    it('test status codes new', async () => {
+        const { data } = await GET`/supplier-sbsext-srv/StatusList`
+        expect(data.value).to.eql([{ "name": "Completed", "descr": null, "code": "CMP" },
+        { "name": "In Process", "descr": null, "code": "INP" }]);
+    })
     it('test action resolve', async () => {
         // Create a new Escalation
         const { data:draft } = await POST `/supplier-sbsext-srv/Escalations ${{"Description":"test","PurchaseOrder_PurchaseOrder":"9000000001","ExpectedDate":"2022-05-27"}}`

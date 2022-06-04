@@ -1,0 +1,9 @@
+{
+    "xsappname": "capp",
+    "tenant-mode": "dedicated",
+    "scopes": [
+    ],
+    "attributes": [],
+    "role-templates": [
+    ]
+  }

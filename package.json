@@ -68,13 +68,23 @@
             "OP_API_PURCHASEORDER_PROCESS_SRV_0001": {
                 "kind": "odata-v2",
                 "model": "srv/external/OP_API_PURCHASEORDER_PROCESS_SRV_0001"
+            },
+            "db": {
+                "kind": "sqlite"
             }
         },
         "[production]": {
             "requires": {
                 "OP_API_PURCHASEORDER_PROCESS_SRV_0001": {
                     "kind": "odata-v2",
-                    "model": "srv/external/OP_API_PURCHASEORDER_PROCESS_SRV_0001"
+                    "model": "srv/external/OP_API_PURCHASEORDER_PROCESS_SRV_0001",
+                    "credentials": {
+                        "destination": "S4HANA_DEST",
+                        "path": "/sap/opu/odata/sap/API_PURCHASEORDER_PROCESS_SRV"
+                    }
+                },
+                "db": {
+                    "kind": "hana"
                 }
             }
         },

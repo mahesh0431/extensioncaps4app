@@ -8,6 +8,8 @@ modules:
   path: gen/srv
   requires:
   - name: sbsextapp-db
+  - name: sbsextapp-uaa
+  - name: sbsextapp-dest
   provides:
   - name: srv-api
     properties:
@@ -21,8 +23,46 @@ modules:
   path: gen/db
   requires:
   - name: sbsextapp-db
+  - name: sbsextapp-uaa
   parameters:
     buildpack: nodejs_buildpack
+- name: sbsextapp-destinations
+  type: com.sap.application.content
+  requires:
+  - name: sbsextapp-uaa
+    parameters:
+      service-key:
+        name: sbsextapp-uaa-key
+  - name: sbsextapp-html5-repo-host
+    parameters:
+      service-key:
+        name: sbsextapp-html5-repo-host-key
+  - name: srv-api
+  - name: sbsextapp-destination-service
+    parameters:
+      content-target: true
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Authentication: OAuth2UserTokenExchange
+          Name: sbsextapp-app-srv
+          TokenServiceInstanceName: sbsextapp-uaa
+          TokenServiceKeyName: sbsextapp-uaa-key
+          URL: ~{srv-api/srv-url}
+          sap.cloud.service: sbsextapp.service
+        - Name: sbsextapp-html5-repo-host
+          ServiceInstanceName: sbsextapp-html5-repo-host
+          ServiceKeyName: sbsextapp-html5-repo-host-key
+          sap.cloud.service: sbsextapp.service
+        - Authentication: OAuth2UserTokenExchange
+          Name: sbsextapp-uaa
+          ServiceInstanceName: sbsextapp-uaa
+          ServiceKeyName: sbsextapp-uaa-key
+          sap.cloud.service: sbsextapp.service
+        existing_destinations_policy: update
+  build-parameters:
+    no-source: true
 - name: sbsextapp-app-content
   type: com.sap.application.content
   path: .
@@ -34,23 +74,9 @@ modules:
     build-result: resources
     requires:
     - artifacts:
-      - supplextapp.zip
-      name: supplextapp
-      target-path: resources/
-    - artifacts:
       - escalationfe.zip
       name: escalationfe
       target-path: resources/
-- name: supplextapp
-  type: html5
-  path: app/supplextapp
-  build-parameters:
-    build-result: dist
-    builder: custom
-    commands:
-    - npm install
-    - npm run build:cf
-    supported-platforms: []
 - name: escalationfe
   type: html5
   path: app/escalationfe
@@ -93,6 +119,26 @@ resources:
     service: destination
     service-name: sbsextapp-destination-service
     service-plan: lite
+- name: sbsextapp-uaa
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: sbsextapp-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+- name: sbsextapp-dest
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: destination
+    service-name: sbsextapp-destination
+    service-plan: lite
+- name: sbsextapp-html5-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-host
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true

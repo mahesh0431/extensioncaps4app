@@ -19,24 +19,16 @@
         "chai-as-promised": "^7.1.1",
         "chai-subset": "^1.6.0",
         "eslint": "^7.32.0",
-        "jest": "^28.1.0",
+        "jest": "^28.1.1",
         "sqlite3": "^5.0.2"
     },
     "scripts": {
         "start": "cds run",
         "watch": "cds watch",
+        "test": "npx jest",
         "watch-supplextapp": "cds watch --open supplextapp/webapp/index.html?sap-ui-xx-viewCache=false#fe-lrop-v4",
         "undeploy": "cf undeploy sbsextapp --delete-services --delete-service-keys",
-        "jest": "npx jest",
-        "test": "npm run jest",
         "watch-escalationfe": "cds watch --open escalationfe/webapp/index.html?sap-ui-xx-viewCache=false#fe-lrop-v4"
-    },
-    "jest": {
-        "testEnvironment": "node",
-        "testTimeout": 20000,
-        "testMatch": [
-            "**.test.js"
-        ]
     },
     "eslintConfig": {
         "extends": "eslint:recommended",
